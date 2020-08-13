@@ -68,6 +68,7 @@ public class MetricsHelper {
               clazz.getDeclaredConstructor();
           MetricsRegistryRegistrationListener listener = defaultConstructor.newInstance();
 
+          LOGGER.info("Registering metricsRegistry to listener {}", listenerClassName);
           addMetricsRegistryRegistrationListener(listener);
         } catch (Exception e) {
           LOGGER
@@ -90,6 +91,7 @@ public class MetricsHelper {
 
       // Fire events to register all previously registered metrics registries
       Set<MetricsRegistry> metricsRegistries = metricsRegistryMap.keySet();
+      LOGGER.info("Size of metricsRegistries: {}", metricsRegistries.size());
       for (MetricsRegistry metricsRegistry : metricsRegistries) {
         listener.onMetricsRegistryRegistered(metricsRegistry);
       }
@@ -127,6 +129,7 @@ public class MetricsHelper {
    * @return Meter
    */
   public static Meter newMeter(MetricsRegistry registry, MetricName name, String eventType, TimeUnit unit) {
+    LOGGER.info("Adding new meter {}", name);
     if (registry != null) {
       return registry.newMeter(name, eventType, unit);
     } else {
@@ -236,6 +239,7 @@ public class MetricsHelper {
    * @return gauge
    */
   public static <T> Gauge<T> newGauge(MetricsRegistry registry, MetricName name, Gauge<T> gauge) {
+    LOGGER.info("Adding new gauge {}", name);
     if (registry != null) {
       return registry.newGauge(name, gauge);
     } else {
@@ -247,6 +251,7 @@ public class MetricsHelper {
    * Removes an existing metric
    */
   public static void removeMetric(MetricsRegistry registry, MetricName name) {
+    LOGGER.info("Removing new metric {}", name);
     if (registry != null) {
       registry.removeMetric(name);
     } else {
